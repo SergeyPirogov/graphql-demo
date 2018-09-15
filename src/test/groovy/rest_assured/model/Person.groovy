@@ -1,4 +1,4 @@
-package com.graphql.demo.client.model
+package rest_assured.model
 
 import groovy.transform.TupleConstructor
 

@@ -1,23 +1,29 @@
 package com.graphql.demo.client
 
-
+import groovy.transform.TupleConstructor
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 
+@TupleConstructor
 class GraphqlClient {
 
-    def <T> T executeQuery(String query, Class<T> aClass) {
+    String url
 
-
-        return RestAssured.given().log().all()
+    GraphqlResponse executeQuery(String query) {
+        return new GraphqlResponse(RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new Query(query))
                 .when()
-                .post("http://localhost:44935")
-                .then().log().all().extract()
-                .response()
-                .jsonPath().getObject("data.${aClass.simpleName.toLowerCase()}", aClass)
+                .post(url)
+                .then())
     }
 
-
+    GraphqlResponse executeQuery(Query query){
+        return new GraphqlResponse(RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(query)
+                .when()
+                .post(url)
+                .then())
+    }
 }
