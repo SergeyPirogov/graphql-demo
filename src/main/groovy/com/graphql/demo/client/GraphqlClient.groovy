@@ -1,6 +1,6 @@
-package client
+package com.graphql.demo.client
 
-import groovy.json.JsonSlurper
+
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 

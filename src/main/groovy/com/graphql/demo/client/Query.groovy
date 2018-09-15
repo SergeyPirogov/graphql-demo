@@ -1,6 +1,4 @@
-package client
-
-import groovy.transform.TupleConstructor
+package com.graphql.demo.client
 
 class Query {
     String query

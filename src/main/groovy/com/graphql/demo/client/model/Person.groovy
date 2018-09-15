@@ -1,4 +1,4 @@
-package client.model
+package com.graphql.demo.client.model
 
 import groovy.transform.TupleConstructor
 
