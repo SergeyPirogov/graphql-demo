@@ -8,12 +8,20 @@ class GraphqlResponse {
 
     ValidatableResponse response
 
-    def <T> T asPojo(Class<T> tClass) {
+    def <T> T asPojo(String path, Class<T> tClass) {
         return response.log()
                 .all()
                 .extract()
                 .body()
                 .jsonPath()
-                .getObject("data.${tClass.simpleName.toLowerCase()}", tClass)
+                .getObject(path, tClass)
+    }
+
+    def <T> T asPojo(Class<T> tClass) {
+        return response.log()
+                .all()
+                .extract()
+                .body()
+                .as(tClass)
     }
 }
