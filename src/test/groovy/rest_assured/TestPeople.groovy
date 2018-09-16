@@ -1,6 +1,9 @@
 package rest_assured
 
+import com.graphql.demo.client.Argument
 import com.graphql.demo.client.GraphqlClient
+import com.graphql.demo.client.GraphqlProperty
+import com.graphql.demo.client.GrapqlArguments
 import com.graphql.demo.client.QueryGenerator
 import rest_assured.model.Film
 import rest_assured.model.Person
@@ -43,4 +46,33 @@ class TestPeople extends Specification {
         film.director == "Irvin Kershner"
         film.title == "The Empire Strikes Back"
     }
+
+    def "test can get all films"() {
+        given:
+        def query = QueryGenerator.generateQuery(AllFilms)
+
+        when:
+        def string = graphqlClient.executeQuery(query).response.extract().body().asString()
+
+        then:
+        string == "{\"data\":{\"allFilms\":{\"totalCount\":7,\"films\":[{\"title\":\"A New Hope\"}],\"pageInfo\":{\"hasNextPage\":true}}}}"
+    }
+}
+
+@GrapqlArguments(@Argument(name = "first", val = "1"))
+class AllFilms {
+    String totalCount
+    @GraphqlProperty
+    Films films
+    @GraphqlProperty
+    PageInfo pageInfo
+}
+
+class Films {
+    String title
+    String director
+}
+
+class PageInfo {
+    Boolean hasNextPage
 }

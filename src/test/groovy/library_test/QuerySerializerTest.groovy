@@ -1,3 +1,5 @@
+package library_test
+
 import com.graphql.demo.client.QueryGenerator
 import spock.lang.Specification
 
