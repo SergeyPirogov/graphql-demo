@@ -1,10 +1,12 @@
 package java_graphql;
 
+import com.graphql.demo.client.Config;
 import com.graphql.demo.client.GraphqlClient;
 import com.graphql.demo.client.Query;
 import com.graphql.demo.client.QueryGenerator;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import rest_assured.model.Data;
 import rest_assured.model.Planet;
 
 import java.util.HashMap;
@@ -15,17 +17,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class JavaDemo {
 
-    private GraphqlClient graphqlClient = new GraphqlClient("http://localhost:46767");
+    private GraphqlClient graphqlClient = new GraphqlClient(Config.URL);
 
     @Test
     public void testCanGetPlanet() {
         Map<String, String> args = new HashMap<>();
-        args.put("planetID", "8");
+        args.put("planetID", "1");
 
         Query query = QueryGenerator.generateQuery("planet", args, singletonList("name"));
 
-        Planet planet = graphqlClient.executeQuery(query).asPojo(Planet.class);
-
-        assertThat(planet.getName(), Matchers.equalTo("Naboo"));
+        graphqlClient.executeQuery(query)
+                .assertThat("data.planet.name", Matchers.equalTo("Tatooine"));
     }
 }

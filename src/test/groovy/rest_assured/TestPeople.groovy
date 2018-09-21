@@ -1,6 +1,7 @@
 package rest_assured
 
 import com.graphql.demo.client.Argument
+import com.graphql.demo.client.Config
 import com.graphql.demo.client.GraphqlClient
 import com.graphql.demo.client.GraphqlProperty
 import com.graphql.demo.client.GrapqlArguments
@@ -11,7 +12,7 @@ import spock.lang.Specification
 
 class TestPeople extends Specification {
 
-    private GraphqlClient graphqlClient = new GraphqlClient("http://localhost:46767")
+    private GraphqlClient graphqlClient = new GraphqlClient(Config.URL)
 
 
     def "test can get person"() {

@@ -1,5 +1,6 @@
 package rest_assured;
 
+import com.graphql.demo.client.Config;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
@@ -17,7 +18,7 @@ public class TestGetFilm {
                 .contentType(ContentType.JSON)
                 .body(req)
                 .when()
-                .post("http://localhost:44935")
+                .post(Config.URL)
                 .then().log().all()
                 .body("data.film.title", equalTo("A New Hope"))
                 .body("data.film.director", equalTo("George Lucas"));
@@ -33,7 +34,7 @@ public class TestGetFilm {
                 .contentType(ContentType.JSON)
                 .body(req)
                 .when()
-                .post("http://localhost:44935")
+                .post(Config.URL)
                 .then().log().all()
                 .body("data.film.title", equalTo("A New Hope"))
                 .body("data.film.director", equalTo("George Lucas"));
