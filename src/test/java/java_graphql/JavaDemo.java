@@ -6,8 +6,6 @@ import com.graphql.demo.client.Query;
 import com.graphql.demo.client.QueryGenerator;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import rest_assured.model.Data;
-import rest_assured.model.Planet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +24,7 @@ public class JavaDemo {
 
         Query query = QueryGenerator.generateQuery("planet", args, singletonList("name"));
 
-        graphqlClient.executeQuery(query)
+        graphqlClient.execute(query)
                 .assertThat("data.planet.name", Matchers.equalTo("Tatooine"));
     }
 }

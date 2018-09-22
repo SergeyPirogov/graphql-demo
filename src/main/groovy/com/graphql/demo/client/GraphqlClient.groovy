@@ -9,16 +9,11 @@ class GraphqlClient {
 
     String url
 
-    GraphqlResponse executeQuery(String query) {
-        return new GraphqlResponse(RestAssured.given().log().all()
-                .contentType(ContentType.JSON)
-                .body(new Query(query))
-                .when()
-                .post(url)
-                .then())
+    GraphqlResponse execute(String query) {
+        return execute(new Query(query))
     }
 
-    GraphqlResponse executeQuery(Query query){
+    GraphqlResponse execute(Query query){
         return new GraphqlResponse(RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(query)

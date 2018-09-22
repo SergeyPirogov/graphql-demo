@@ -5,10 +5,9 @@ import com.graphql.demo.client.GraphqlClient
 import com.graphql.demo.client.GraphqlResponse
 import com.graphql.demo.client.GrapqlArguments
 import com.graphql.demo.client.QueryGenerator
-import org.hamcrest.Matchers
 import spock.lang.Specification
-import todo.model.Response
 
+import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasSize
 
 class ToDoGraphQLTest extends Specification{
@@ -27,7 +26,7 @@ class ToDoGraphQLTest extends Specification{
               }
         """
         when:
-        def response = graphqlClient.executeQuery(query)
+        def response = graphqlClient.execute(query)
 
         then:
         response.assertThat("data.todos", hasSize(3))
@@ -39,11 +38,31 @@ class ToDoGraphQLTest extends Specification{
         def query = QueryGenerator.generateQuery(Todos)
 
         when:
-        def resp = graphqlClient.executeQuery(query).asPojo(GetToDosResponse)
+        def resp = graphqlClient.execute(query).asPojo(GetToDosResponse)
 
         then:
         resp.data.todos.size() == 3
+    }
 
+    def "test can add todo"(){
+        given:
+        def mutation = """
+            mutation addToDo { 
+                addTodo(input:{
+                    text: "todo",
+                    complete: false,
+                    clientMutationId: "1"
+            }) {
+                clientMutationId
+            }
+        }
+        """
+
+        when:
+        def response = graphqlClient.execute(mutation)
+
+        then:
+        response.assertThat("data.addTodo.clientMutationId", equalTo("1"))
     }
 }
 

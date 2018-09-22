@@ -30,7 +30,7 @@ class TestPeople extends Specification {
         """
 
         when:
-        def person = graphqlClient.executeQuery(query).asPojo(Person)
+        def person = graphqlClient.execute(query).asPojo(Person)
 
         then:
         person.name == 'Luke Skywalker'
@@ -41,7 +41,7 @@ class TestPeople extends Specification {
         def query = QueryGenerator.generateQuery("film", ["filmID": "2"], ["title", "director"])
 
         when:
-        def film = graphqlClient.executeQuery(query).asPojo(Film)
+        def film = graphqlClient.execute(query).asPojo(Film)
 
         then:
         film.director == "Irvin Kershner"
@@ -53,7 +53,7 @@ class TestPeople extends Specification {
         def query = QueryGenerator.generateQuery(AllFilms)
 
         when:
-        def string = graphqlClient.executeQuery(query).response.extract().body().asString()
+        def string = graphqlClient.execute(query).response.extract().body().asString()
 
         then:
         string == "{\"data\":{\"allFilms\":{\"totalCount\":7,\"films\":[{\"title\":\"A New Hope\"}],\"pageInfo\":{\"hasNextPage\":true}}}}"
