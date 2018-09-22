@@ -1,5 +1,7 @@
 package com.graphql.demo.client
 
+import groovy.json.JsonOutput
+
 import java.lang.reflect.Field
 
 class QueryGenerator {
@@ -63,4 +65,9 @@ class QueryGenerator {
 
         return "${tClass.simpleName.uncapitalize()} (${args.join(",")}) { "
     }
+
+    static def generateMutation(String operationName, Object input, List<String> returnFields) {
+        return "mutation ${operationName} { ${operationName} (input:${JsonOutput.toJson(input)}) { ${returnFields.join(" ")} }}"
+    }
+
 }

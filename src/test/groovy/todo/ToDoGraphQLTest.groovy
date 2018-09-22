@@ -5,6 +5,7 @@ import com.graphql.demo.client.GraphqlClient
 import com.graphql.demo.client.GraphqlResponse
 import com.graphql.demo.client.GrapqlArguments
 import com.graphql.demo.client.QueryGenerator
+import groovy.transform.TupleConstructor
 import spock.lang.Specification
 
 import static org.hamcrest.Matchers.equalTo
@@ -32,18 +33,6 @@ class ToDoGraphQLTest extends Specification{
         response.assertThat("data.todos", hasSize(3))
     }
 
-
-    def "test can get all todos"() {
-        given:
-        def query = QueryGenerator.generateQuery(Todos)
-
-        when:
-        def resp = graphqlClient.execute(query).asPojo(GetToDosResponse)
-
-        then:
-        resp.data.todos.size() == 3
-    }
-
     def "test can add todo"(){
         given:
         def mutation = """
@@ -63,6 +52,17 @@ class ToDoGraphQLTest extends Specification{
 
         then:
         response.assertThat("data.addTodo.clientMutationId", equalTo("1"))
+    }
+
+    def "test can get all todos"() {
+        given:
+        def query = QueryGenerator.generateQuery(Todos)
+
+        when:
+        def resp = graphqlClient.execute(query).asPojo(GetToDosResponse)
+
+        then:
+        resp.data.todos.size() == 3
     }
 }
 
